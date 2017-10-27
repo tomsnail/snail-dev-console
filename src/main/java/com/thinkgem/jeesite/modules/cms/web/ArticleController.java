@@ -33,7 +33,6 @@ import com.thinkgem.jeesite.modules.cms.service.SiteService;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
 import com.thinkgem.jeesite.modules.cms.utils.TplUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.zkjd.ehua.common.utils.service.QiniuService;
 
 /**
  * 文章Controller
@@ -120,19 +119,21 @@ public class ArticleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "updateCdn")
 	public String updateCnd(@RequestParam String id) {
-		Article article = articleService.get(id);
-		String url = article.getStaticUrl();
-		if(!QiniuService.refresh(url)){
-			return "操作失败";
-		}
-		return "操作成功,请清除本地浏览器缓存后查看,剩余次数:"+QiniuService.REFRESH_NUM;
+//		Article article = articleService.get(id);
+//		String url = article.getStaticUrl();
+//		if(!QiniuService.refresh(url)){
+//			return "操作失败";
+//		}
+//		return "操作成功,请清除本地浏览器缓存后查看,剩余次数:"+QiniuService.REFRESH_NUM;
+		return "";
 	}
 	
 	@RequiresPermissions("cms:article:view")
 	@ResponseBody
 	@RequestMapping(value = "getRefeashNum")
 	public String getRefeashNum() {
-		return "剩余CND更新次数:"+QiniuService.REFRESH_NUM;
+		//return "剩余CND更新次数:"+QiniuService.REFRESH_NUM;
+		return "";
 	}
 	
 	@RequiresPermissions("cms:article:edit")

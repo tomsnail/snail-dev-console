@@ -6,7 +6,7 @@
 	<groupId>cn.tomsnail</groupId>
 	<artifactId>snail-dev-console</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	
 
 	
@@ -622,17 +622,7 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
 		
-		<dependency>
-				<groupId>cn.tomsnail</groupId>
-				<artifactId>dev-qiniu-util</artifactId>
-				<version>0.0.3-SNAPSHOT</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>cn.tomsnail</groupId>
-				<artifactId>dev-http-client</artifactId>
-				<version>0.0.3-SNAPSHOT</version>
-			</dependency>
+	
 		
 		<!-- 自定义jar依赖包
 		<dependency>

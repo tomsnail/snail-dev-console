@@ -34,7 +34,6 @@ import com.thinkgem.jeesite.modules.cms.utils.CreateHtmlUtil;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.zkjd.ehua.common.utils.DataUtil;
 import com.zkjd.ehua.common.utils.MQUtil;
-import com.zkjd.ehua.common.utils.service.QiniuService;
 
 /**
  * 文章Service
@@ -52,8 +51,7 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 	@Autowired
 	private CategoryDao categoryDao;
 	
-	@Autowired
-	private QiniuService qiniuService;
+	
 	
 	@Transactional(readOnly = false)
 	public Page<Article> findPage(Page<Article> page, Article article, boolean isDataScopeFilter) {
@@ -145,7 +143,7 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
         		data.put("staticName", article.getStaticName());
         		staticUrl = CreateHtmlUtil.createHTML(request, data, article.getStaticTemplate(), fileName);
         	}        	
-        	qiniuService.upload(staticUrl, fileName, "staticfiles");
+        	//qiniuService.upload(staticUrl, fileName, "staticfiles");
         	article.setStaticUrl(DataUtil.getSysConfig("STATIC_FILE", "103003")+"/files"+fileName);
         	
         }
@@ -175,7 +173,7 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 		//article.setDelFlag(isRe!=null&&isRe?Article.DEL_FLAG_NORMAL:Article.DEL_FLAG_DELETE);
 		//dao.insert(article);
 		if(!StringUtils.isBlank(article.getIsStatic())&&article.getIsStatic().equals("1")){
-			qiniuService.delete(article.getStaticUrl().replace(DataUtil.getSysConfig("STATIC_FILE", "103003"), ""), "staticfiles");
+			//qiniuService.delete(article.getStaticUrl().replace(DataUtil.getSysConfig("STATIC_FILE", "103003"), ""), "staticfiles");
 		}
 		super.delete(article);
 		MQUtil.sendNodeMsg("300007");

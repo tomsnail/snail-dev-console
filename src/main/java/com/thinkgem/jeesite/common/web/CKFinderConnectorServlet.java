@@ -15,7 +15,6 @@ import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.zkjd.ehua.common.utils.service.QiniuService;
 import com.ckfinder.connector.ConnectorServlet;
 
 /**
@@ -27,7 +26,6 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	QiniuService qiniuService = new QiniuService();
 	
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -46,10 +44,10 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 			if(StringUtils.isBlank(fullFileName)||"null".equalsIgnoreCase(fullFileName)){
 			}else{
 				if(fullFileName.contains("photo")){
-					qiniuService.upload(fullFileName);
+					//qiniuService.upload(fullFileName);
 				}
 				else{
-					qiniuService.upload(fullFileName,"ehuaprice");
+					//qiniuService.upload(fullFileName,"ehuaprice");
 				}
 			}
 		}
