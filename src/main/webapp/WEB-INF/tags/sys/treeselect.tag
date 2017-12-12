@@ -30,7 +30,7 @@
 <%@ attribute name="selecteId" type="java.lang.String" required="false" description=""%>
 <%@ attribute name="valueid" type="java.lang.String" required="false" description="值ID"%>
 <%@ attribute name="multiPatents" type="java.lang.String" required="false" description=""%>
-<%@ attribute name="typeCode" type="java.lang.String" required="false" description="
+<%@ attribute name="typeCode" type="java.lang.String" required="false" description=""%>
 <div class="input-append">
 	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}" 

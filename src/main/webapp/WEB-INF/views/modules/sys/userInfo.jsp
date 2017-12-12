@@ -82,18 +82,7 @@
 				<form:input path="nickname" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">QQ:</label>
-			<div class="controls">
-				<form:input path="qq" htmlEscape="false" maxlength="50"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">微信:</label>
-			<div class="controls">
-				<form:input path="wechat" htmlEscape="false" maxlength="50"/>
-			</div>
-		</div>
+		
 		<div class="control-group">
 			<label class="control-label">是否启用:</label>
 			<div class="controls">
@@ -101,12 +90,6 @@
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> “是”代表此账号启用，“否”则表示此账号禁用</span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">TB账号:</label>
-			<div class="controls">
-				<form:input path="tbId" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="control-group">

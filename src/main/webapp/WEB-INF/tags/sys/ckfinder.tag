@@ -12,12 +12,12 @@
 
 	var project1 = "jeesite";
 	
-	var project2 = "ehua-manager";
+	var project2 = "ts-console";
 	
 	
-	var imagesUrl = '${fns:getSysConfig("IMAGE_FILE", "103003")}';//"http://om4urlrg6.bkt.clouddn.com/";
+	var imagesUrl = '';//"http://om4urlrg6.bkt.clouddn.com/";
 	
-	var filesUrl = '${fns:getSysConfig("PRICE_FILE", "103003")}';//"http://omhjj8k5p.bkt.clouddn.com/";
+	var filesUrl = '';//"http://omhjj8k5p.bkt.clouddn.com/";
 
 	function ${input}FinderOpen(){//<c:if test="${type eq 'thumb'}"><c:set var="ctype" value="images"/></c:if><c:if test="${type ne 'thumb'}"><c:set var="ctype" value="${type}"/></c:if>
 		var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);

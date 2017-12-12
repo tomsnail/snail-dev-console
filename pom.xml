@@ -52,7 +52,7 @@
 		<webserver.port>8181</webserver.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
-		<project.war.name>dev-manager</project.war.name>
+		<project.war.name>ts-console</project.war.name>
 		
 	</properties>
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
