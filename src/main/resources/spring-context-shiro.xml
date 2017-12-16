@@ -16,7 +16,9 @@
 		<constructor-arg>
 			<value>
 				/static/** = anon
+				/console/** = anon
 				/userfiles/** = anon
+				${adminPath}/indexpage/jsIndex/jsonData = anon
 				${adminPath}/cas = cas
 				${adminPath}/login = authc
 				${adminPath}/logout = logout
