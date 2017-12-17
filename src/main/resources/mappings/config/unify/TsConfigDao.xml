@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tomsnail.dev.console.config.unify.dao.TsConfigDao">
+    
+	<sql id="tsConfigColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.label AS "label",
+		a.key AS "key",
+		a.value AS "value",
+		a.type AS "type",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.service AS "service",
+		a.module AS "module",
+		a.project AS "project",
+		a.system AS "system",
+		a.sync_method AS "syncMethod",
+		a.sync_system AS "syncSystem",
+		a.sync_date AS "syncDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="tsConfigJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.tomsnail.dev.console.config.unify.entity.TsConfig">
+		SELECT 
+			<include refid="tsConfigColumns"/>
+		FROM ts_config a
+		<include refid="tsConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.tomsnail.dev.console.config.unify.entity.TsConfig">
+		SELECT 
+			<include refid="tsConfigColumns"/>
+		FROM ts_config a
+		<include refid="tsConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="label != null and label != ''">
+				AND a.label LIKE 
+					<if test="dbName == 'oracle'">'%'||#{label}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{label}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{label},'%')</if>
+			</if>
+			<if test="key != null and key != ''">
+				AND a.key LIKE 
+					<if test="dbName == 'oracle'">'%'||#{key}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{key}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{key},'%')</if>
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="syncMethod != null and syncMethod != ''">
+				AND a.sync_method = #{syncMethod}
+			</if>
+			<if test="syncSystem != null and syncSystem != ''">
+				AND a.sync_system = #{syncSystem}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks LIKE 
+					<if test="dbName == 'oracle'">'%'||#{remarks}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{remarks}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{remarks},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.tomsnail.dev.console.config.unify.entity.TsConfig">
+		SELECT 
+			<include refid="tsConfigColumns"/>
+		FROM ts_config a
+		<include refid="tsConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ts_config(
+			id,
+			name,
+			label,
+			key,
+			value,
+			type,
+			parent_id,
+			parent_ids,
+			service,
+			module,
+			project,
+			system,
+			sync_method,
+			sync_system,
+			sync_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{id},
+			#{name},
+			#{label},
+			#{key},
+			#{value},
+			#{type},
+			#{parent.id},
+			#{parentIds},
+			#{service},
+			#{module},
+			#{project},
+			#{system},
+			#{syncMethod},
+			#{syncSystem},
+			#{syncDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ts_config SET 	
+			name = #{name},
+			label = #{label},
+			key = #{key},
+			value = #{value},
+			type = #{type},
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds},
+			service = #{service},
+			module = #{module},
+			project = #{project},
+			system = #{system},
+			sync_method = #{syncMethod},
+			sync_system = #{syncSystem},
+			sync_date = #{syncDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ts_config SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
