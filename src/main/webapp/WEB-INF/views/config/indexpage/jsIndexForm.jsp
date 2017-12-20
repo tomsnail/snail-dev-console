@@ -36,7 +36,8 @@
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -49,25 +50,29 @@
 		<div class="control-group">
 			<label class="control-label">地址链接：</label>
 			<div class="controls">
-				<form:input path="url" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="url" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">排序：</label>
 			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:input path="sort" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">分组：</label>
 			<div class="controls">
-				<form:input path="groupName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="groupName" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">分组排序：</label>
 			<div class="controls">
-				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

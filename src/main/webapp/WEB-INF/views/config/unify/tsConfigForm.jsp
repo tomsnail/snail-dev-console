@@ -36,34 +36,38 @@
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="name" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">标签：</label>
 			<div class="controls">
-				<form:input path="label" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="label" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">关键字：</label>
 			<div class="controls">
-				<form:input path="key" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="key" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">值：</label>
 			<div class="controls">
-				<form:input path="value" htmlEscape="false" maxlength="2000" class="input-xlarge "/>
+				<form:textarea path="value" htmlEscape="false" rows="4" maxlength="2000" class="input-xxlarge required"/>
+				<span class="help-inline"><font color="red">*  不超过2000字符</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">类型：</label>
 			<div class="controls">
-				<form:select path="type" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_config_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				<form:select path="type" class="input-xlarge required">
+					<form:options items="${fns:getDictList('ts_unify_conf_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -93,26 +97,27 @@
 		<div class="control-group">
 			<label class="control-label">同步方法：</label>
 			<div class="controls">
-				<form:select path="syncMethod" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_sync_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				<form:select path="syncMethod" class="input-xlarge required">
+					<form:options items="${fns:getDictList('ts_unify_conf_sync_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">同步系统：</label>
 			<div class="controls">
-				<form:select path="syncSystem" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_sync_system')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				<form:select path="syncSystem" class="input-xlarge required">
+					<form:options items="${fns:getDictList('ts_unify_conf_sync_system')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">同步时间：</label>
+			<label class="control-label">同步周期：</label>
 			<div class="controls">
-				<form:input path="syncDate" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="syncDate" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
 			</div>
+			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 		<div class="control-group">
 			<label class="control-label">描述：</label>

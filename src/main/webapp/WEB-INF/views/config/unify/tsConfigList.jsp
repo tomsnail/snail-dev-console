@@ -37,25 +37,26 @@
 			<li><label>类型：</label>
 				<form:select path="type" class="input-medium">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_config_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('ts_unify_conf_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>同步方法：</label>
 				<form:select path="syncMethod" class="input-medium">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_sync_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('ts_unify_conf_sync_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>同步系统：</label>
 				<form:select path="syncSystem" class="input-medium">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('ts_sync_system')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('ts_unify_conf_sync_system')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>描述：</label>
 				<form:input path="remarks" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="立即更新"/></li>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -90,13 +91,13 @@
 					${tsConfig.value}
 				</td>
 				<td>
-					${fns:getDictLabel(tsConfig.type, 'ts_config_type', '')}
+					${fns:getDictLabel(tsConfig.type, 'ts_unify_conf_type', '')}
 				</td>
 				<td>
-					${fns:getDictLabel(tsConfig.syncMethod, 'ts_sync_method', '')}
+					${fns:getDictLabel(tsConfig.syncMethod, 'ts_unify_conf_sync_method', '')}
 				</td>
 				<td>
-					${fns:getDictLabel(tsConfig.syncSystem, 'ts_sync_system', '')}
+					${fns:getDictLabel(tsConfig.syncSystem, 'ts_unify_conf_sync_system', '')}
 				</td>
 				<td>
 					${tsConfig.syncDate}
