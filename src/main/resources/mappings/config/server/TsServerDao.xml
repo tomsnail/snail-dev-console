@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tomsnail.dev.console.config.server.dao.TsServerDao">
+    
+	<sql id="tsServerColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.parent_id AS "parent.id",
+		a.server_ip AS "serverIp",
+		a.parent_ids AS "parentIds",
+		a.server_port AS "serverPort",
+		a.sort AS "sort",
+		a.server_url AS "serverUrl",
+		a.server_username AS "serverUsername",
+		a.server_password AS "serverPassword",
+		a.server_base_dir AS "serverBaseDir",
+		a.server_type AS "serverType",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="tsServerJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.tomsnail.dev.console.config.server.entity.TsServer">
+		SELECT 
+			<include refid="tsServerColumns"/>
+		FROM ts_server a
+		<include refid="tsServerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.tomsnail.dev.console.config.server.entity.TsServer">
+		SELECT 
+			<include refid="tsServerColumns"/>
+		FROM ts_server a
+		<include refid="tsServerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parent.id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parent.id}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parent.id},'%')</if>
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				AND a.server_ip LIKE 
+					<if test="dbName == 'oracle'">'%'||#{serverIp}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{serverIp}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{serverIp},'%')</if>
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				AND a.parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parentIds}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parentIds}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
+			</if>
+			<if test="serverPort != null and serverPort != ''">
+				AND a.server_port LIKE 
+					<if test="dbName == 'oracle'">'%'||#{serverPort}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{serverPort}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{serverPort},'%')</if>
+			</if>
+			<if test="serverUrl != null and serverUrl != ''">
+				AND a.server_url LIKE 
+					<if test="dbName == 'oracle'">'%'||#{serverUrl}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{serverUrl}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{serverUrl},'%')</if>
+			</if>
+			<if test="serverUsername != null and serverUsername != ''">
+				AND a.server_username LIKE 
+					<if test="dbName == 'oracle'">'%'||#{serverUsername}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{serverUsername}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{serverUsername},'%')</if>
+			</if>
+			<if test="serverType != null and serverType != ''">
+				AND a.server_type = #{serverType}
+			</if>
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+	
+	<select id="findAllList" resultType="cn.tomsnail.dev.console.config.server.entity.TsServer">
+		SELECT 
+			<include refid="tsServerColumns"/>
+		FROM ts_server a
+		<include refid="tsServerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="cn.tomsnail.dev.console.config.server.entity.TsServer">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids
+		FROM ts_server a
+		<include refid="tsServerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.parent_ids LIKE #{parentIds}
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ts_server(
+			id,
+			name,
+			parent_id,
+			server_ip,
+			parent_ids,
+			server_port,
+			sort,
+			server_url,
+			server_username,
+			server_password,
+			server_base_dir,
+			server_type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{id},
+			#{name},
+			#{parent.id},
+			#{serverIp},
+			#{parentIds},
+			#{serverPort},
+			#{sort},
+			#{serverUrl},
+			#{serverUsername},
+			#{serverPassword},
+			#{serverBaseDir},
+			#{serverType},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ts_server SET 	
+			name = #{name},
+			parent_id = #{parent.id},
+			server_ip = #{serverIp},
+			parent_ids = #{parentIds},
+			server_port = #{serverPort},
+			sort = #{sort},
+			server_url = #{serverUrl},
+			server_username = #{serverUsername},
+			server_password = #{serverPassword},
+			server_base_dir = #{serverBaseDir},
+			server_type = #{serverType},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateParentIds">
+		UPDATE ts_server SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE ts_server SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id} OR parent_ids LIKE 
+		
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
+					<if test="dbName == 'mysql'"></if>
+	</update>
+	
+</mapper>

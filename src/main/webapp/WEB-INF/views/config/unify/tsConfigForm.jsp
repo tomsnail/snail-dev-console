@@ -62,6 +62,14 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">服务器:</label>
+			<div class="controls">
+				<sys:treeselect id="serverId" name="serverId" value="${tsConfig.serverId}" labelName="" labelValue="${ts:getServerName(tsConfig.serverId)}"
+					title="服务器" url="/server/tsServer/treeData"  cssClass="required" allowClear="true"/>
+					<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">类型：</label>
 			<div class="controls">
 				<form:select path="type" class="input-xlarge required">
@@ -115,9 +123,8 @@
 		<div class="control-group">
 			<label class="control-label">同步周期：</label>
 			<div class="controls">
-				<form:input path="syncDate" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<form:input path="syncDate" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
-			<span class="help-inline"><font color="red">*</font> </span>
 		</div>
 		<div class="control-group">
 			<label class="control-label">描述：</label>

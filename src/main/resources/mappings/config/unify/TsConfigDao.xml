@@ -9,6 +9,7 @@
 		a.key AS "key",
 		a.value AS "value",
 		a.type AS "type",
+		a.server_id AS "serverId",
 		a.parent_id AS "parent.id",
 		a.parent_ids AS "parentIds",
 		a.service AS "service",
@@ -65,6 +66,9 @@
 			<if test="type != null and type != ''">
 				AND a.type = #{type}
 			</if>
+			<if test="serverId != null and serverId != ''">
+				AND a.server_id = #{serverId}
+			</if>
 			<if test="syncMethod != null and syncMethod != ''">
 				AND a.sync_method = #{syncMethod}
 			</if>
@@ -109,11 +113,12 @@
 	<insert id="insert">
 		INSERT INTO ts_config(
 			id,
-			name,
-			label,
-			key,
-			value,
-			type,
+			`name`,
+			`label`,
+			`key`,
+			`value`,
+			`type`,
+			server_id,
 			parent_id,
 			parent_ids,
 			service,
@@ -136,6 +141,7 @@
 			#{key},
 			#{value},
 			#{type},
+			#{serverId},
 			#{parent.id},
 			#{parentIds},
 			#{service},
@@ -156,11 +162,12 @@
 	
 	<update id="update">
 		UPDATE ts_config SET 	
-			name = #{name},
-			label = #{label},
-			key = #{key},
-			value = #{value},
-			type = #{type},
+			`name` = #{name},
+			`label` = #{label},
+			`key` = #{key},
+			`value` = #{value},
+			`type` = #{type},
+			server_id = #{serverId},
 			parent_id = #{parent.id},
 			parent_ids = #{parentIds},
 			service = #{service},

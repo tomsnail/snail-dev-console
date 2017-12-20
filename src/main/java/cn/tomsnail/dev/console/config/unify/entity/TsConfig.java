@@ -31,6 +31,8 @@ public class TsConfig extends DataEntity<TsConfig> {
 	private String syncSystem;		// 同步系统
 	private String syncDate;		// 同步时间
 	
+	private String serverId;
+	
 	public TsConfig() {
 		super();
 	}
@@ -164,5 +166,15 @@ public class TsConfig extends DataEntity<TsConfig> {
 	public void setSyncDate(String syncDate) {
 		this.syncDate = syncDate;
 	}
+
+	public String getServerId() {
+		return serverId;
+	}
+
+	public void setServerId(String serverId) {
+		this.serverId = serverId;
+	}
+	
+	
 	
 }

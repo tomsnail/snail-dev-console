@@ -70,6 +70,7 @@
 				<th>关键字</th>
 				<th>值</th>
 				<th>类型</th>
+				<th>服务器</th>
 				<th>同步方法</th>
 				<th>同步系统</th>
 				<th>同步时间</th>
@@ -93,6 +94,11 @@
 				</td>
 				<td>
 					${fns:getDictLabel(tsConfig.type, 'ts_unify_conf_type', '')}
+				</td>
+				<td>
+				
+					${ts:getServerName(tsConfig.serverId)}
+				
 				</td>
 				<td>
 					${fns:getDictLabel(tsConfig.syncMethod, 'ts_unify_conf_sync_method', '')}
