@@ -73,6 +73,26 @@ public class TsConfigController extends BaseController {
 	}
 	
 	@RequiresPermissions("unify:tsConfig:edit")
+	@RequestMapping(value = "saveAndSync")
+	public String saveAndSync(TsConfig tsConfig, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, tsConfig)){
+			return form(tsConfig, model);
+		}
+		tsConfigService.saveAndSync(tsConfig);
+		addMessage(redirectAttributes, "保存并同步统一配置成功");
+		return "redirect:"+Global.getAdminPath()+"/unify/tsConfig/?repage";
+	}
+	
+	
+	@RequiresPermissions("unify:tsConfig:edit")
+	@RequestMapping(value = "syncAll")
+	public String syncAll(TsConfig tsConfig, Model model, RedirectAttributes redirectAttributes) {
+		tsConfigService.syncAll();
+		addMessage(redirectAttributes, "同步成功");
+		return "redirect:"+Global.getAdminPath()+"/unify/tsConfig/?repage";
+	}
+	
+	@RequiresPermissions("unify:tsConfig:edit")
 	@RequestMapping(value = "delete")
 	public String delete(TsConfig tsConfig, RedirectAttributes redirectAttributes) {
 		tsConfigService.delete(tsConfig);

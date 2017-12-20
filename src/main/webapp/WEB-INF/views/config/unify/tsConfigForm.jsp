@@ -23,7 +23,25 @@
 				}
 			});
 		});
+		
+
+		
 	</script>
+	
+	<shiro:hasPermission name="unify:tsConfig:edit">
+	
+		<script type="text/javascript">
+		
+			function saveAndSync(){
+				
+				$("#inputForm").attr("action","${ctx}/unify/tsConfig/saveAndSync");
+				$("#inputForm").submit();
+				
+			}
+		
+		</script>
+	
+	</shiro:hasPermission>
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -48,7 +66,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">关键字：</label>
+			<label class="control-label">键值：</label>
 			<div class="controls">
 				<form:input path="key" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -133,7 +151,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="unify:tsConfig:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保存并更新"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="unify:tsConfig:edit"><input id="btnSubmit" class="btn btn-primary" type="button" onclick="saveAndSync();" value="保存并更新"/>&nbsp;</shiro:hasPermission>
 			<shiro:hasPermission name="unify:tsConfig:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

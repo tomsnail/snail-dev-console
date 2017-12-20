@@ -15,6 +15,24 @@
         	return false;
         }
 	</script>
+	
+	
+	
+	<shiro:hasPermission name="unify:tsConfig:edit">
+	
+		<script type="text/javascript">
+		
+			function syncAll(){
+				
+				$("#searchForm").attr("action","${ctx}/unify/tsConfig/syncAll");
+				$("#searchForm").submit();
+				
+			}
+		
+		</script>
+	
+	</shiro:hasPermission>
+	
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -56,7 +74,7 @@
 				<form:input path="remarks" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="立即更新"/></li>
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="button" onclick="syncAll();" value="立即更新"/></li>
 			<li class="clearfix"></li>
 		</ul>
 		
