@@ -59,6 +59,7 @@
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="立即更新"/></li>
 			<li class="clearfix"></li>
 		</ul>
+		
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
