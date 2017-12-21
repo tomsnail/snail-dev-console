@@ -15,13 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import cn.tomsnail.dev.console.config.indexpage.entity.JsIndex;
@@ -30,7 +30,7 @@ import cn.tomsnail.dev.console.config.indexpage.service.JsIndexService;
 /**
  * 首页配置Controller
  * @author yangsong
- * @version 2017-12-14
+ * @version 2017-12-20
  */
 @Controller
 @RequestMapping(value = "${adminPath}/indexpage/jsIndex")
@@ -54,14 +54,32 @@ public class JsIndexController extends BaseController {
 	@RequiresPermissions("indexpage:jsIndex:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(JsIndex jsIndex, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<JsIndex> page = jsIndexService.findPage(new Page<JsIndex>(request, response), jsIndex); 
-		model.addAttribute("page", page);
+		List<JsIndex> list = jsIndexService.findList(jsIndex); 
+		model.addAttribute("list", list);
 		return "config/indexpage/jsIndexList";
 	}
 
 	@RequiresPermissions("indexpage:jsIndex:view")
 	@RequestMapping(value = "form")
 	public String form(JsIndex jsIndex, Model model) {
+		if (jsIndex.getParent()!=null && StringUtils.isNotBlank(jsIndex.getParent().getId())){
+			jsIndex.setParent(jsIndexService.get(jsIndex.getParent().getId()));
+			// 获取排序号，最末节点排序号+30
+			if (StringUtils.isBlank(jsIndex.getId())){
+				JsIndex jsIndexChild = new JsIndex();
+				jsIndexChild.setParent(new JsIndex(jsIndex.getParent().getId()));
+				List<JsIndex> list = jsIndexService.findList(jsIndex); 
+				if (list.size() > 0){
+					jsIndex.setSort(list.get(list.size()-1).getSort());
+					if (jsIndex.getSort() != null){
+						jsIndex.setSort(jsIndex.getSort() + 30);
+					}
+				}
+			}
+		}
+		if (jsIndex.getSort() == null){
+			jsIndex.setSort(30);
+		}
 		model.addAttribute("jsIndex", jsIndex);
 		return "config/indexpage/jsIndexForm";
 	}
@@ -84,11 +102,24 @@ public class JsIndexController extends BaseController {
 		addMessage(redirectAttributes, "删除首页配置成功");
 		return "redirect:"+Global.getAdminPath()+"/indexpage/jsIndex/?repage";
 	}
-	
-	@ResponseBody
-	@RequestMapping(value = "jsonData",method={RequestMethod.GET})
-	public List<JsIndex> jsonData(@RequestParam(required=false) String officeId, HttpServletResponse response) {
-		return jsIndexService.findList(new JsIndex());
-	}
 
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "treeData")
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		List<JsIndex> list = jsIndexService.findList(new JsIndex());
+		for (int i=0; i<list.size(); i++){
+			JsIndex e = list.get(i);
+			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
+				Map<String, Object> map = Maps.newHashMap();
+				map.put("id", e.getId());
+				map.put("pId", e.getParentId());
+				map.put("name", e.getName());
+				mapList.add(map);
+			}
+		}
+		return mapList;
+	}
+	
 }

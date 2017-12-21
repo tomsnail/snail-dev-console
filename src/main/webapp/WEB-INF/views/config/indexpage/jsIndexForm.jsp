@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//$("#name").focus();
+			$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
@@ -15,7 +15,7 @@
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
 					$("#messageBox").text("输入有误，请先更正。");
-					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")){
 						error.appendTo(element.parent().parent());
 					} else {
 						error.insertAfter(element);
@@ -28,7 +28,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/indexpage/jsIndex/">首页配置列表</a></li>
-		<li class="active"><a href="${ctx}/indexpage/jsIndex/form?id=${jsIndex.id}">首页配置<shiro:hasPermission name="indexpage:jsIndex:edit">${not empty jsIndex.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="indexpage:jsIndex:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/indexpage/jsIndex/form?id=${jsIndex.id}&parent.id=${jsIndexparent.id}">首页配置<shiro:hasPermission name="indexpage:jsIndex:edit">${not empty jsIndex.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="indexpage:jsIndex:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="jsIndex" action="${ctx}/indexpage/jsIndex/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -36,49 +36,45 @@
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">图片链接：</label>
 			<div class="controls">
-				<form:hidden id="iconImage" path="icon" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-				<sys:ckfinder input="iconImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+				<form:hidden id="icon" path="icon" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<sys:ckfinder input="icon" type="files" uploadPath="/indexpage/jsIndex" selectMultiple="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">地址链接：</label>
 			<div class="controls">
-				<form:input path="url" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="url" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">排序：</label>
 			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="sort" htmlEscape="false" maxlength="11" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">分组：</label>
+			<label class="control-label">排序：</label>
 			<div class="controls">
-				<form:input path="groupName" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">分组排序：</label>
-			<div class="controls">
-				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">上级parent_id:</label>
+			<div class="controls">
+				<sys:treeselect id="parent" name="parent.id" value="${jsIndex.parent.id}" labelName="parent.name" labelValue="${jsIndex.parent.name}"
+					title="parent_id" url="/indexpage/jsIndex/treeData" extId="${jsIndex.id}" cssClass="" allowClear="true"/>
 			</div>
 		</div>
 		<div class="form-actions">

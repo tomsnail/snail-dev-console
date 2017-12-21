@@ -49,7 +49,7 @@
 			<li><label>标签：</label>
 				<form:input path="label" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<li><label>关键字：</label>
+			<li><label>键值：</label>
 				<form:input path="key" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
 			<li><label>类型：</label>
@@ -85,7 +85,7 @@
 			<tr>
 				<th>名称</th>
 				<th>标签</th>
-				<th>关键字</th>
+				<th>键值</th>
 				<th>值</th>
 				<th>类型</th>
 				<th>服务器</th>

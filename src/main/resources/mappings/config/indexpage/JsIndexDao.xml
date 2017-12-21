@@ -15,7 +15,9 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a.remarks AS "remarks"
+		a.remarks AS "remarks",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds"
 	</sql>
 	
 	<sql id="jsIndexJoins">
@@ -42,21 +44,17 @@
 					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
 			</if>
-			<if test="groupName != null and groupName != ''">
-				AND a.group_name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{groupName}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{groupName}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{groupName},'%')</if>
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				AND a.parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parentIds}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parentIds}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
 			</if>
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.order_int,a.sort,a.group_name
-			</otherwise>
-		</choose>
+		ORDER BY a.sort ASC
 	</select>
 	
 	<select id="findAllList" resultType="cn.tomsnail.dev.console.config.indexpage.entity.JsIndex">
@@ -66,15 +64,22 @@
 		<include refid="jsIndexJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="cn.tomsnail.dev.console.config.indexpage.entity.JsIndex">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids
+		FROM js_index a
+		<include refid="jsIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			AND a.parent_ids LIKE #{parentIds}
+		</where>
+		ORDER BY a.sort ASC
 	</select>
 	
 	<insert id="insert">
@@ -83,27 +88,29 @@
 			icon,
 			url,
 			sort,
-			group_name,
 			order_int,
 			create_by,
 			create_date,
 			update_by,
 			update_date,
 			del_flag,
-			remarks
+			remarks,
+			parent_id,
+			parent_ids
 		) VALUES (
 			#{name},
 			#{icon},
 			#{url},
 			#{sort},
-			#{groupName},
 			#{orderInt},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
 			#{delFlag},
-			#{remarks}
+			#{remarks},
+			#{parent.id},
+			#{parentIds}
 		)
 	</insert>
 	
@@ -113,18 +120,30 @@
 			icon = #{icon},
 			url = #{url},
 			sort = #{sort},
-			group_name = #{groupName},
-			order_int  = #{orderInt},
+			order_int = #{orderInt},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateParentIds">
+		UPDATE js_index SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE js_index SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE id = #{id} OR parent_ids LIKE 
+		
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
+					<if test="dbName == 'mysql'"></if>
 	</update>
 	
 </mapper>
