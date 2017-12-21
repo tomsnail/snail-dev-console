@@ -54,7 +54,7 @@
 					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
 			</if>
 		</where>
-		ORDER BY a.sort ASC
+		ORDER BY a.order_int ASC
 	</select>
 	
 	<select id="findAllList" resultType="cn.tomsnail.dev.console.config.indexpage.entity.JsIndex">
@@ -65,7 +65,7 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
-		ORDER BY a.sort ASC
+		ORDER BY a.order_int ASC
 	</select>
 	
 	<select id="findByParentIdsLike" resultType="cn.tomsnail.dev.console.config.indexpage.entity.JsIndex">
@@ -79,7 +79,7 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			AND a.parent_ids LIKE #{parentIds}
 		</where>
-		ORDER BY a.sort ASC
+		ORDER BY a.order_int ASC
 	</select>
 	
 	<insert id="insert">
@@ -88,6 +88,7 @@
 			icon,
 			url,
 			sort,
+			group_name,
 			order_int,
 			create_by,
 			create_date,
@@ -102,6 +103,7 @@
 			#{icon},
 			#{url},
 			#{sort},
+			#{groupName},
 			#{orderInt},
 			#{createBy.id},
 			#{createDate},
@@ -120,6 +122,7 @@
 			icon = #{icon},
 			url = #{url},
 			sort = #{sort},
+			group_name = #{groupName},
 			order_int = #{orderInt},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},

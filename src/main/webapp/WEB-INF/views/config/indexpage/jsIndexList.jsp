@@ -50,7 +50,8 @@
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
 			<li><label>所属上级：</label>
-				<form:input path="parentIds" htmlEscape="false" maxlength="2000" class="input-medium"/>
+				<sys:treeselect id="parent" name="parent.id" value="${jsIndex.parent.id}" labelName="parent.name" labelValue="${jsIndex.parent.name}"
+					title="所属上级" url="/indexpage/jsIndex/treeData" extId="${jsIndex.id}" cssClass="" allowClear="true"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -75,7 +76,7 @@
 				{{row.name}}
 			</a></td>
 			<td>
-				{{row.sort}}
+				{{row.orderInt}}
 			</td>
 			<td>
 				{{row.updateDate}}

@@ -3,6 +3,7 @@
  */
 package cn.tomsnail.dev.console.config.indexpage.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+
 import cn.tomsnail.dev.console.config.indexpage.entity.JsIndex;
 import cn.tomsnail.dev.console.config.indexpage.service.JsIndexService;
 
@@ -120,6 +123,27 @@ public class JsIndexController extends BaseController {
 			}
 		}
 		return mapList;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "jsonData",method={RequestMethod.GET})
+	public List<JsIndex> jsonData(@RequestParam(required=false) String officeId, HttpServletResponse response) {
+		JsIndex index = new JsIndex();
+		index.setParent(new JsIndex("0"));
+		List<JsIndex> jsIndexs = jsIndexService.findList(index);
+		List<JsIndex> returns = new ArrayList<JsIndex>();
+		if(jsIndexs!=null&&jsIndexs.size()>0){
+			for(JsIndex jsIndex:jsIndexs){
+				JsIndex _index = new JsIndex();
+				_index.setParent(jsIndex);
+				List<JsIndex> _jsIndexs = jsIndexService.findList(_index);
+				if(_jsIndexs!=null&&_jsIndexs.size()>0){
+					returns.addAll(_jsIndexs);
+				}
+			}
+		}
+		
+		return returns;
 	}
 	
 }

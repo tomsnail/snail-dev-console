@@ -36,7 +36,8 @@
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -55,13 +56,8 @@
 		<div class="control-group">
 			<label class="control-label">排序：</label>
 			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="11" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">排序：</label>
-			<div class="controls">
-				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge "/>
+				<form:input path="orderInt" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -71,11 +67,13 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">上级parent_id:</label>
+			<label class="control-label">所属上级:</label>
 			<div class="controls">
 				<sys:treeselect id="parent" name="parent.id" value="${jsIndex.parent.id}" labelName="parent.name" labelValue="${jsIndex.parent.name}"
-					title="parent_id" url="/indexpage/jsIndex/treeData" extId="${jsIndex.id}" cssClass="" allowClear="true"/>
+					title="所属上级" url="/indexpage/jsIndex/treeData" extId="${jsIndex.id}" cssClass="" allowClear="true"/>
+					<span class="help-inline">只支持两级树结构</span>
 			</div>
+			
 		</div>
 		<div class="form-actions">
 			<shiro:hasPermission name="indexpage:jsIndex:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
