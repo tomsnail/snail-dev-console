@@ -13,6 +13,8 @@
 		a.proxy_method AS "proxyMethod",
 		a.proxy_type AS "proxyType",
 		a.is_use AS "isUse",
+		a.server_id AS "serverId",
+		a.server_name AS "serverName",
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.create_date AS "createDate",
@@ -56,6 +58,9 @@
 			</if>
 			<if test="proxyType != null and proxyType != ''">
 				AND a.proxy_type = #{proxyType}
+			</if>
+			<if test="serverId != null and serverId != ''">
+				AND a.server_id = #{serverId}
 			</if>
 			<if test="proxyMethod != null and proxyMethod != ''">
 				AND a.proxy_method = #{proxyMethod}
@@ -103,6 +108,8 @@
 			proxy_type,
 			proxy_method,
 			is_use,
+			server_id,
+			server_name,
 			sort,
 			create_by,
 			update_by,
@@ -120,6 +127,8 @@
 			#{proxyType},
 			#{proxyMethod},
 			#{isUse},
+			#{serverId},
+			#{serverName},
 			#{sort},
 			#{createBy.id},
 			#{updateBy.id},
@@ -140,6 +149,8 @@
 			proxy_type = #{proxyType},
 			proxy_method = #{proxyMethod},
 			is_use = #{isUse},
+			server_id = #{serverId},
+			server_name = #{serverName},
 			sort = #{sort},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},

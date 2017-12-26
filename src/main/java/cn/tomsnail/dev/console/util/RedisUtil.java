@@ -18,6 +18,19 @@ public class RedisUtil {
 		colse(jedis);
 	}
 	
+	public static void hset(String mapName,String key,String value,RedisConfig redisConfig){
+		hset(mapName,key,value,0,redisConfig);
+	}
+	
+	public static void hset(String mapName,String key,String value,int timeout,RedisConfig redisConfig){
+		Jedis jedis = getJedis(redisConfig);
+		jedis.hset(mapName, key, value);
+		if(timeout>0){
+			jedis.expire(mapName, timeout);
+		}
+		colse(jedis);
+	}
+	
 	
 	public static String get(String key,RedisConfig redisConfig ){
 		Jedis jedis = getJedis(redisConfig);

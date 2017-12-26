@@ -41,6 +41,22 @@
 			}
 		}
 	</script>
+	
+	<shiro:hasPermission name="unify:tsConfig:edit">
+	
+		<script type="text/javascript">
+		
+			function syncAll(){
+				
+				$("#searchForm").attr("action","${ctx}/np/tsNginxProxy/syncAll");
+				$("#searchForm").submit();
+				
+			}
+		
+		</script>
+	
+	</shiro:hasPermission>
+	
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -86,6 +102,7 @@
 				<th>代理地址</th>
 				<th>代理类型</th>
 				<th>代理方式</th>
+				<th>服务器</th>
 				<th>是否可用</th>
 				<th>更新时间</th>
 				<th>备注</th>
@@ -112,6 +129,9 @@
 				{{dict.proxyMethod}}
 			</td>
 			<td>
+				{{row.serverName}}
+			</td>
+			<td>
 				{{dict.isUse}}
 			</td>
 			<td>
@@ -123,7 +143,7 @@
 			<shiro:hasPermission name="np:tsNginxProxy:edit"><td>
    				<a href="${ctx}/np/tsNginxProxy/form?id={{row.id}}">修改</a>
 				<a href="${ctx}/np/tsNginxProxy/delete?id={{row.id}}" onclick="return confirmx('确认要删除该Nginx代理及所有子Nginx代理吗？', this.href)">删除</a>
-				<a href="${ctx}/np/tsNginxProxy/form?parent.id={{row.id}}">添加下级Nginx代理</a> 
+				<a href="${ctx}/np/tsNginxProxy/form?parent.id={{row.id}}&serverId={{row.serverId}}&&serverName={{row.serverName}}">添加下级Nginx代理</a> 
 			</td></shiro:hasPermission>
 		</tr>
 	</script>

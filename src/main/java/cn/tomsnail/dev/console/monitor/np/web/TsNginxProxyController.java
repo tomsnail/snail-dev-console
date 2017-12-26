@@ -24,6 +24,8 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+
+import cn.tomsnail.dev.console.config.server.service.TsServerService;
 import cn.tomsnail.dev.console.monitor.np.entity.TsNginxProxy;
 import cn.tomsnail.dev.console.monitor.np.service.TsNginxProxyService;
 
@@ -38,6 +40,9 @@ public class TsNginxProxyController extends BaseController {
 
 	@Autowired
 	private TsNginxProxyService tsNginxProxyService;
+	
+	@Autowired
+	private TsServerService tsServerService;
 	
 	@ModelAttribute
 	public TsNginxProxy get(@RequestParam(required=false) String id) {
@@ -90,6 +95,11 @@ public class TsNginxProxyController extends BaseController {
 		if (!beanValidator(model, tsNginxProxy)){
 			return form(tsNginxProxy, model);
 		}
+		
+		if(StringUtils.isNotBlank(tsNginxProxy.getServerId())){
+			tsNginxProxy.setServerName(tsServerService.get(tsNginxProxy.getServerId()).getName());
+		}
+		
 		tsNginxProxyService.save(tsNginxProxy);
 		addMessage(redirectAttributes, "保存Nginx代理成功");
 		return "redirect:"+Global.getAdminPath()+"/np/tsNginxProxy/?repage";
@@ -100,6 +110,26 @@ public class TsNginxProxyController extends BaseController {
 	public String delete(TsNginxProxy tsNginxProxy, RedirectAttributes redirectAttributes) {
 		tsNginxProxyService.delete(tsNginxProxy);
 		addMessage(redirectAttributes, "删除Nginx代理成功");
+		return "redirect:"+Global.getAdminPath()+"/np/tsNginxProxy/?repage";
+	}
+	
+	@RequiresPermissions("np:tsNginxProxy:edit")
+	@RequestMapping(value = "saveAndSync")
+	public String saveAndSync(TsNginxProxy tsNginxProxy, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, tsNginxProxy)){
+			return form(tsNginxProxy, model);
+		}
+		tsNginxProxyService.saveAndSync(tsNginxProxy);
+		addMessage(redirectAttributes, "保存并同步Nginx代理成功");
+		return "redirect:"+Global.getAdminPath()+"/np/tsNginxProxy/?repage";
+	}
+	
+	
+	@RequiresPermissions("np:tsNginxProxy:edit")
+	@RequestMapping(value = "syncAll")
+	public String syncAll(TsNginxProxy tsNginxProxy, Model model, RedirectAttributes redirectAttributes) {
+		tsNginxProxyService.syncAll();
+		addMessage(redirectAttributes, "同步成功");
 		return "redirect:"+Global.getAdminPath()+"/np/tsNginxProxy/?repage";
 	}
 

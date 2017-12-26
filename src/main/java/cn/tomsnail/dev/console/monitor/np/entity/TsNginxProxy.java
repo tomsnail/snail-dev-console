@@ -9,6 +9,7 @@ import java.util.Map;
 import org.hibernate.validator.constraints.Length;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thinkgem.jeesite.common.persistence.TreeEntity;
 
@@ -29,6 +30,10 @@ public class TsNginxProxy extends TreeEntity<TsNginxProxy> {
 	private String proxyType;		// 代理类型
 	private String proxyMethod;
 	private String isUse;		// 是否可用
+	
+	private String serverId;
+	
+	private String serverName;
 	
 	public TsNginxProxy() {
 		super();
@@ -114,7 +119,36 @@ public class TsNginxProxy extends TreeEntity<TsNginxProxy> {
 		this.proxyMethod = proxyMethod;
 	}
 	
+	
+	
+	public String getServerId() {
+		return serverId;
+	}
+
+	public void setServerId(String serverId) {
+		this.serverId = serverId;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+
 	public String toObjectMapStr(){
-		return null;
+		Map<String,String> _map = new HashMap<String, String>();
+		_map.put("proxyMethod", proxyMethod);
+		_map.put("realUrl", realUrl);
+		return JSONObject.toJSONString(_map);
+	}
+	
+	public boolean isUse(){
+		if(this.isUse == null || this.isUse.equals("0")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }

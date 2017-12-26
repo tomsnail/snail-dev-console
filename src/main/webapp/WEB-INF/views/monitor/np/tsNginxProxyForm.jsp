@@ -24,6 +24,22 @@
 			});
 		});
 	</script>
+	
+	<shiro:hasPermission name="unify:tsConfig:edit">
+	
+		<script type="text/javascript">
+		
+			function saveAndSync(){
+				
+				$("#inputForm").attr("action","${ctx}/np/tsNginxProxy/saveAndSync");
+				$("#inputForm").submit();
+				
+			}
+		
+		</script>
+	
+	</shiro:hasPermission>
+	
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -75,6 +91,14 @@
 					<form:options items="${fns:getDictList('ts_nginx_proxy_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">服务器:</label>
+			<div class="controls">
+				<sys:treeselect id="serverId" name="serverId" value="${tsNginxProxy.serverId}" labelName="" labelValue="${tsNginxProxy.serverName}"
+					title="服务器" url="/server/tsServer/treeData"  cssClass="required" allowClear="true"/>
+					<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
