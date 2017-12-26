@@ -10,6 +10,7 @@
 		a.parent_ids AS "parentIds",
 		a.proxy_url AS "proxyUrl",
 		a.real_url AS "realUrl",
+		a.proxy_method AS "proxyMethod",
 		a.proxy_type AS "proxyType",
 		a.is_use AS "isUse",
 		a.create_by AS "createBy.id",
@@ -56,6 +57,9 @@
 			<if test="proxyType != null and proxyType != ''">
 				AND a.proxy_type = #{proxyType}
 			</if>
+			<if test="proxyMethod != null and proxyMethod != ''">
+				AND a.proxy_method = #{proxyMethod}
+			</if>
 			<if test="isUse != null and isUse != ''">
 				AND a.is_use = #{isUse}
 			</if>
@@ -97,6 +101,7 @@
 			proxy_url,
 			real_url,
 			proxy_type,
+			proxy_method,
 			is_use,
 			sort,
 			create_by,
@@ -113,6 +118,7 @@
 			#{proxyUrl},
 			#{realUrl},
 			#{proxyType},
+			#{proxyMethod},
 			#{isUse},
 			#{sort},
 			#{createBy.id},
@@ -132,6 +138,7 @@
 			proxy_url = #{proxyUrl},
 			real_url = #{realUrl},
 			proxy_type = #{proxyType},
+			proxy_method = #{proxyMethod},
 			is_use = #{isUse},
 			sort = #{sort},
 			update_by = #{updateBy.id},

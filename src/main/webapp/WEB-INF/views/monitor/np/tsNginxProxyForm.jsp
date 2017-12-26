@@ -63,8 +63,16 @@
 			<label class="control-label">代理类型：</label>
 			<div class="controls">
 				<form:select path="proxyType" class="input-xlarge required">
-					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('ts_nginx_proxy_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">代理方式：</label>
+			<div class="controls">
+				<form:select path="proxyMethod" class="input-xlarge required">
+					<form:options items="${fns:getDictList('ts_nginx_proxy_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

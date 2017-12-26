@@ -32,6 +32,8 @@
 					$(list).append(Mustache.render(tpl, {
 						dict: {
 							proxyType: getDictLabel(${fns:toJson(fns:getDictList('ts_nginx_proxy_type'))}, row.proxyType),
+							proxyMethod: getDictLabel(${fns:toJson(fns:getDictList('ts_nginx_proxy_method'))}, row.proxyMethod),
+							isUse: getDictLabel(${fns:toJson(fns:getDictList('yes_no'))}, row.isUse),
 						blank123:0}, pid: (root?0:pid), row: row
 					}));
 					addRow(list, tpl, data, row.id);
@@ -58,6 +60,12 @@
 					<form:options items="${fns:getDictList('ts_nginx_proxy_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+			<li><label>代理类型：</label>
+				<form:select path="proxyMethod" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('ts_nginx_proxy_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li><label>是否可用：</label>
 				<form:select path="isUse" class="input-medium">
 					<form:option value="" label=""/>
@@ -77,6 +85,7 @@
 				<th>所属上级</th>
 				<th>代理地址</th>
 				<th>代理类型</th>
+				<th>代理方式</th>
 				<th>是否可用</th>
 				<th>更新时间</th>
 				<th>备注</th>
@@ -100,7 +109,10 @@
 				{{dict.proxyType}}
 			</td>
 			<td>
-				{{row.isUse}}
+				{{dict.proxyMethod}}
+			</td>
+			<td>
+				{{dict.isUse}}
 			</td>
 			<td>
 				{{row.updateDate}}

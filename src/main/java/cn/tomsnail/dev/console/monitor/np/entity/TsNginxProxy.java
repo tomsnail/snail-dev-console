@@ -3,9 +3,13 @@
  */
 package cn.tomsnail.dev.console.monitor.np.entity;
 
-import org.hibernate.validator.constraints.Length;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.alibaba.druid.support.json.JSONUtils;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thinkgem.jeesite.common.persistence.TreeEntity;
 
 /**
@@ -23,6 +27,7 @@ public class TsNginxProxy extends TreeEntity<TsNginxProxy> {
 	private String proxyUrl;		// 代理地址
 	private String realUrl;		// 真实地址
 	private String proxyType;		// 代理类型
+	private String proxyMethod;
 	private String isUse;		// 是否可用
 	
 	public TsNginxProxy() {
@@ -99,5 +104,17 @@ public class TsNginxProxy extends TreeEntity<TsNginxProxy> {
 	
 	public String getParentId() {
 		return parent != null && parent.getId() != null ? parent.getId() : "0";
+	}
+
+	public String getProxyMethod() {
+		return proxyMethod;
+	}
+
+	public void setProxyMethod(String proxyMethod) {
+		this.proxyMethod = proxyMethod;
+	}
+	
+	public String toObjectMapStr(){
+		return null;
 	}
 }
