@@ -6,7 +6,6 @@ package com.thinkgem.jeesite.modules.cms.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -60,7 +59,7 @@ public class Article extends DataEntity<Article> {
 		this.hits = 0;
 		this.posid = "";
 		this.isStatic = Global.YES; 
-		this.delFlag = DEL_FLAG_AUDIT;
+		this.delFlag = DEL_FLAG_NORMAL;
 	}
 
 	public Article(String id){
@@ -189,7 +188,6 @@ public class Article extends DataEntity<Article> {
 		this.description = description;
 	}
 
-	@NotNull
 	public Integer getWeight() {
 		return weight;
 	}

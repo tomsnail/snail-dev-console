@@ -71,12 +71,10 @@
 				<td><fmt:formatDate value="${article.publishDate}" type="both"/></td>
 				<td><fmt:formatDate value="${article.updateDate}" type="both"/></td>
 				<td>
-					<a href="${article.staticUrl}" target="_blank">访问</a>
+					<a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${article.category.id}-${article.id}${fns:getUrlSuffix()}" target="_blank">访问</a>
 					<shiro:hasPermission name="cms:article:edit">
 	    				<a href="${ctx}/cms/article/form?id=${article.id}">详情</a>
-	    				<c:if test="${article.delFlag!=0}">
-									<a href="#" onclick="return confirmx('确认要更新该文章吗？', function(){updateCdn('${article.id}');})" >更新CDN</a>
-						</c:if>
+	    				
 					</shiro:hasPermission>
 				</td>
 			</tr>

@@ -5,7 +5,6 @@ package com.thinkgem.jeesite.modules.cms.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.google.common.collect.Lists;
-import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
@@ -30,10 +28,7 @@ import com.thinkgem.jeesite.modules.cms.dao.CategoryDao;
 import com.thinkgem.jeesite.modules.cms.entity.Article;
 import com.thinkgem.jeesite.modules.cms.entity.ArticleData;
 import com.thinkgem.jeesite.modules.cms.entity.Category;
-import com.thinkgem.jeesite.modules.cms.utils.CreateHtmlUtil;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.zkjd.ehua.common.utils.DataUtil;
-import com.zkjd.ehua.common.utils.MQUtil;
 
 /**
  * 文章Service
@@ -108,45 +103,9 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
         if (StringUtils.isNotBlank(article.getViewConfig())){
             article.setViewConfig(StringEscapeUtils.unescapeHtml4(article.getViewConfig()));
         }
+                
         
-        String isStatic = article.getIsStatic();
-        
-        
-        
-        if(!StringUtils.isBlank(isStatic)&&isStatic.equals("1")){
-        	
-        	HashMap<String,Object> data = new HashMap<String,Object>(); 
-        	data.put("title", article.getTitle());
-        	data.put("dataTime", com.thinkgem.jeesite.common.utils.DateUtils.formatDateTime(article.getPublishDate()));
-        	data.put("author", article.getAuthor());
-        	data.put("source", article.getArticleData().getCopyfrom());
-        	data.put("context", article.getArticleData().getContent());
-        	String domainUrl = DataUtil.getSysConfig("system.domain.url", "103006");
-        	String apiUrl = DataUtil.getSysConfig("system.api.url", "103006");
-        	String staticfileUrl = DataUtil.getSysConfig("STATIC_FILE", "103003");
-        	data.put("domainUrl", domainUrl);
-        	data.put("apiUrl", apiUrl);
-        	data.put("staticfileUrl", staticfileUrl);
-        	data.put("className", article.getCategory().getName());
-        	data.put("classification_id", article.getCategory().getId());
-        	data.put("keywords", article.getKeywords());
-        	String fileName = "";
-        	String staticUrl = "";
-        	if(StringUtils.isBlank(article.getStaticUrl())){
-        		fileName = "/"+System.currentTimeMillis()+".html";
-        		article.setStaticName(fileName.replace("/", "").replace(".html", ""));
-        		data.put("staticName", article.getStaticName());
-        		staticUrl = CreateHtmlUtil.createHTML(request, data, article.getStaticTemplate(), fileName);
-        	}else{
-        		fileName = article.getStaticUrl().split("files")[1];
-        		article.setStaticName(fileName.replace("/", "").replace(".html", ""));
-        		data.put("staticName", article.getStaticName());
-        		staticUrl = CreateHtmlUtil.createHTML(request, data, article.getStaticTemplate(), fileName);
-        	}        	
-        	//qiniuService.upload(staticUrl, fileName, "staticfiles");
-        	article.setStaticUrl(DataUtil.getSysConfig("STATIC_FILE", "103003")+"/files"+fileName);
-        	
-        }
+  
         
         ArticleData articleData = new ArticleData();;
 		if (StringUtils.isBlank(article.getId())){
@@ -162,7 +121,6 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 			dao.update(article);
 			articleDataDao.update(article.getArticleData());
 		}
-		MQUtil.sendNodeMsg("300007");
 	}
 	
 	@Transactional(readOnly = false)
@@ -176,7 +134,6 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 			//qiniuService.delete(article.getStaticUrl().replace(DataUtil.getSysConfig("STATIC_FILE", "103003"), ""), "staticfiles");
 		}
 		super.delete(article);
-		MQUtil.sendNodeMsg("300007");
 	}
 	
 	/**

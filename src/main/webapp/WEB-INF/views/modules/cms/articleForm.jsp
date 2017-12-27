@@ -65,90 +65,9 @@
 				</form:select>
 			</div>
 		</div>
-        <div id="linkBody" class="control-group" style="display:none">
-            <label class="control-label">外部链接:</label>
-            <div class="controls">
-                <form:input path="link" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-                <span class="help-inline">绝对或相对地址。</span>
-            </div>
-        </div>
-        <div class="control-group">
-			<label class="control-label">作者:</label>
-			<div class="controls">
-				<form:input path="author" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">来源:</label>
-			<div class="controls">
-				<form:input path="articleData.copyfrom" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">关键字:</label>
-			<div class="controls">
-				<form:input path="keywords" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
-				<span class="help-inline">多个关键字，用空格分隔。<font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">权重:</label>
-			<div class="controls">
-				<form:input path="weight" htmlEscape="false" maxlength="200" class="input-mini required digits"/>&nbsp;
-				<span>
-					<input id="weightTop" type="checkbox" onclick="$('#weight').val(this.checked?'999':'0')"><label for="weightTop">置顶</label>
-				</span>
-				&nbsp;过期时间：
-				<input id="weightDate" name="weightDate" type="text" readonly="readonly" maxlength="20" class="input-small Wdate"
-					value="<fmt:formatDate value="${article.weightDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
-				<span class="help-inline">数值越大排序越靠前，过期时间可为空，过期后取消置顶。</span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">摘要:</label>
-			<div class="controls">
-				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge required"/>
-				<span class="help-inline"><font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">缩略图:</label>
-			<div class="controls">
-                <input type="hidden" id="image" name="image" value="${article.image}" class="required"/>
-				<sys:ckfinder input="image" type="images" uploadPath="/photo" selectMultiple="false"/>
-				<span class="help-inline"><font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">是否静态化:</label>
-			<div class="controls">
-				<form:radiobuttons path="isStatic" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" cssClass="required"/>
-				<span class="help-inline"><font color="red">*</font></span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">静态地址:</label>
-			<div class="controls">
-				<form:input path="staticUrl" htmlEscape="false" maxlength="200" class="input-xlarge " readonly="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">静态文件类型:</label>
-			<div class="controls">
-				<form:select path="staticTemplate" class="input-xlarge required">
-					<form:options items="${fns:getFlowDictList(article.staticTemplate,'cms_template_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">静态文件名称:</label>
-			<div class="controls">
-				<form:input path="staticName" htmlEscape="false" maxlength="200" class="input-xlarge " readonly="true"/>
-			</div>
-		</div>
+
+
+
 		<div class="control-group">
 			<label class="control-label">正文:</label>
 			<div class="controls">
@@ -204,86 +123,10 @@
 				</script>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">是否允许评论:</label>
-			<div class="controls">
-				<form:radiobuttons path="articleData.allowComment" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">推荐位:</label>
-			<div class="controls">
-				<form:checkboxes path="posidList" items="${fns:getDictList('cms_posid')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发布时间:</label>
-			<div class="controls">
-				
-						<c:choose>
-							<c:when test="${article.publishDate==undefined||article.publishDate==''||article.publishDate==null}">
-								<input name="publishDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-									value="${fns:getNewDate('yyyy-MM-dd 00:00:00',1)}"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-							</c:when>
-							<c:otherwise>
-								<input id="publishDate" name="publishDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-									value="<fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-							</c:otherwise>
-						</c:choose>
-				
-			</div>
-		</div>
-		<shiro:hasPermission name="cms:article:audit">
-			<div class="control-group">
-				<label class="control-label">发布状态:</label>
-				<div class="controls">
-					<form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-					<span class="help-inline"></span>
-				</div>
-			</div>
-		</shiro:hasPermission>
-		<shiro:hasPermission name="cms:category:edit">
-            <div class="control-group">
-                <label class="control-label">自定义内容视图:</label>
-                <div class="controls">
-                      <form:select path="customContentView" class="input-medium">
-                          <form:option value="" label="默认视图"/>
-                          <form:options items="${contentViewList}" htmlEscape="false"/>
-                      </form:select>
-                      <span class="help-inline">自定义内容视图名称必须以"${article_DEFAULT_TEMPLATE}"开始</span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">自定义视图参数:</label>
-                <div class="controls">
-                      <form:input path="viewConfig" htmlEscape="true"/>
-                      <span class="help-inline">视图参数例如: {count:2, title_show:"yes"}</span>
-                </div>
-            </div>
-		</shiro:hasPermission>
-		<c:if test="${not empty article.id}">
-			<div class="control-group">
-				<label class="control-label">查看评论:</label>
-				<div class="controls">
-					<input id="btnComment" class="btn" type="button" value="查看评论" onclick="viewComment('${ctx}/cms/comment/?module=article&contentId=${article.id}&status=0')"/>
-					<script type="text/javascript">
-						function viewComment(href){
-							top.$.jBox.open('iframe:'+href,'查看评论',$(top.document).width()-220,$(top.document).height()-180,{
-								buttons:{"关闭":true},
-								loaded:function(h){
-									$(".jbox-content", top.document).css("overflow-y","hidden");
-									$(".nav,.form-actions,[class=btn]", h.find("iframe").contents()).hide();
-									$("body", h.find("iframe").contents()).css("margin","10px");
-								}
-							});
-							return false;
-						}
-					</script>
-				</div>
-			</div>
-		</c:if>
+		
+		
+		
+		
 		<div class="form-actions">
 			<shiro:hasPermission name="cms:article:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

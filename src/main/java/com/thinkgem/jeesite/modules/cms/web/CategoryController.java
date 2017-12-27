@@ -76,7 +76,7 @@ public class CategoryController extends BaseController {
 		Category parent = categoryService.get(category.getParent().getId());
 		category.setParent(parent);
 		if (category.getOffice()==null||category.getOffice().getId()==null){
-			category.setOffice(parent.getOffice());
+			category.setOffice(parent==null?null:parent.getOffice());
 		}
         model.addAttribute("listViewList",getTplContent(Category.DEFAULT_TEMPLATE));
         model.addAttribute("category_DEFAULT_TEMPLATE",Category.DEFAULT_TEMPLATE);
