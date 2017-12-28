@@ -27,6 +27,10 @@ public class TsServer extends TreeEntity<TsServer> {
 	private String serverBaseDir;		// 基础目录
 	private String serverType;		// 服务器类型
 	
+	private String isMaster;
+	
+	private String serviceType;
+	
 	public TsServer() {
 		super();
 	}
@@ -130,4 +134,22 @@ public class TsServer extends TreeEntity<TsServer> {
 	public String getParentId() {
 		return parent != null && parent.getId() != null ? parent.getId() : "0";
 	}
+
+	public String getIsMaster() {
+		return isMaster;
+	}
+
+	public void setIsMaster(String isMaster) {
+		this.isMaster = isMaster;
+	}
+
+	public String getServiceType() {
+		return serviceType;
+	}
+
+	public void setServiceType(String serviceType) {
+		this.serviceType = serviceType;
+	}
+	
+	
 }

@@ -32,6 +32,8 @@
 					$(list).append(Mustache.render(tpl, {
 						dict: {
 							serverType: getDictLabel(${fns:toJson(fns:getDictList('ts_server_type'))}, row.serverType),
+							isMaster: getDictLabel(${fns:toJson(fns:getDictList('yes_no'))}, row.isMaster),
+							serviceType: getDictLabel(${fns:toJson(fns:getDictList('ts_server_service_type'))}, row.serviceType),
 						blank123:0}, pid: (root?0:pid), row: row
 					}));
 					addRow(list, tpl, data, row.id);
@@ -87,6 +89,8 @@
 				<th>URL</th>
 				<th>用户名</th>
 				<th>服务器类型</th>
+				<th>是否主用</th>
+				<th>服务类型</th>
 				<th>更新时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="server:tsServer:edit"><th>操作</th></shiro:hasPermission>
@@ -118,6 +122,12 @@
 				{{dict.serverType}}
 			</td>
 			<td>
+				{{dict.isMaster}}
+			</td>
+			<td>
+				{{dict.serviceType}}
+			</td>
+			<td>
 				{{row.updateDate}}
 			</td>
 			<td>
@@ -126,7 +136,7 @@
 			<shiro:hasPermission name="server:tsServer:edit"><td>
    				<a href="${ctx}/server/tsServer/form?id={{row.id}}">修改</a>
 				<a href="${ctx}/server/tsServer/delete?id={{row.id}}" onclick="return confirmx('确认要删除该服务器配置及所有子服务器配置吗？', this.href)">删除</a>
-				<a href="${ctx}/server/tsServer/form?parent.id={{row.id}}">添加下级服务器配置</a> 
+				<a href="${ctx}/server/tsServer/form?parent.id={{row.id}}&serviceType={{row.serviceType}}">添加下级服务器配置</a> 
 			</td></shiro:hasPermission>
 		</tr>
 	</script>

@@ -15,6 +15,8 @@
 		a.server_password AS "serverPassword",
 		a.server_base_dir AS "serverBaseDir",
 		a.server_type AS "serverType",
+		a.is_master AS "isMaster",
+		a.service_type AS "serviceType",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
@@ -86,6 +88,12 @@
 			<if test="serverType != null and serverType != ''">
 				AND a.server_type = #{serverType}
 			</if>
+			<if test="serviceType != null and serviceType != ''">
+				AND a.service_type = #{serviceType}
+			</if>
+			<if test="isMaster != null and isMaster != ''">
+				AND a.is_master = #{isMaster}
+			</if>
 		</where>
 		ORDER BY a.sort ASC
 	</select>
@@ -129,6 +137,8 @@
 			server_password,
 			server_base_dir,
 			server_type,
+			is_master,
+			service_type,
 			create_by,
 			create_date,
 			update_by,
@@ -148,6 +158,8 @@
 			#{serverPassword},
 			#{serverBaseDir},
 			#{serverType},
+			#{isMaster},
+			#{serviceType},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
@@ -170,6 +182,8 @@
 			server_password = #{serverPassword},
 			server_base_dir = #{serverBaseDir},
 			server_type = #{serverType},
+			service_type = #{serviceType},
+			is_master = #{isMaster},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks}
