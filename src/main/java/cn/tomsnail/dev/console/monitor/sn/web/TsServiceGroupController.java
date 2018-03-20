@@ -24,6 +24,8 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.zkjd.ehua.system.conf.entity.VisitAddress;
+import com.zkjd.ehua.system.conf.service.VisitAddressService;
 
 import cn.tomsnail.dev.console.monitor.sn.entity.TsServiceGroup;
 import cn.tomsnail.dev.console.monitor.sn.entity.TsServiceNode;
@@ -44,6 +46,11 @@ public class TsServiceGroupController extends BaseController {
 	
 	@Autowired
 	private TsServiceNodeService tsServiceNodeService;
+	
+	
+	@Autowired
+	private VisitAddressService visitAddressService;
+	
 	
 	@ModelAttribute
 	public TsServiceGroup get(@RequestParam(required=false) String id) {
@@ -121,6 +128,81 @@ public class TsServiceGroupController extends BaseController {
 	public String syncAll(TsServiceGroup tsServiceGroup, Model model, RedirectAttributes redirectAttributes) {
 		tsServiceGroupService.syncAll();
 		addMessage(redirectAttributes, "立即更新成功");
+		return "redirect:"+Global.getAdminPath()+"/sn/tsServiceGroup/?repage";
+	}
+	
+	@RequiresPermissions("sn:tsServiceGroup:edit")
+	@RequestMapping(value = "addUS")
+	public String addUS(TsServiceGroup tsServiceGroup, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, tsServiceGroup)){
+			return form(tsServiceGroup, model);
+		}
+		
+		TsServiceNode tsServiceNode = new TsServiceNode();
+		tsServiceNode.setServiceId(tsServiceGroup.getId());
+		tsServiceNode.setNodeStatus("0");
+		List<TsServiceNode> nodes = tsServiceNodeService.findList(tsServiceNode);
+		
+		if(nodes==null||nodes.size()<=0){
+			addMessage(redirectAttributes, "添加失败");
+			return "redirect:"+Global.getAdminPath()+"/sn/tsServiceGroup/?repage";
+		}
+		String t = nodes.get(0).getAddressUrl().replace("http://", "");
+		String _t = t.split("/")[0];
+		t = nodes.get(0).getAddressUrl().replace("http://"+_t+"/", "");
+		
+		StringBuffer urlSB = new StringBuffer();
+		for(TsServiceNode node:nodes){
+			urlSB.append(node.getAddressUrl().replace(t, "")).append(";");
+		}
+		urlSB.append("0");
+		String _url = urlSB.toString().replace(";0", "");
+		
+		VisitAddress visitAddress = new VisitAddress();
+		visitAddress.setVisitAddr(t);
+		List<VisitAddress> addresses = visitAddressService.findList(visitAddress);
+		
+		if(addresses!=null&&addresses.size()==1){
+			visitAddress = addresses.get(0);
+			visitAddress.setRealAddress(_url);
+			visitAddress.setTestAddress(_url);
+			visitAddress.setComAddress(_url);
+			visitAddressService.update(visitAddress);
+		}else if(addresses!=null&&addresses.size()>1){
+			addMessage(redirectAttributes, "添加失败");
+			return "redirect:"+Global.getAdminPath()+"/sn/tsServiceGroup/?repage";
+		}else{
+			visitAddress = new VisitAddress();
+			visitAddress.setAccessLimitType("103300");
+			visitAddress.setAccessLimitValue("1");
+			visitAddress.setAddressType("202102");
+			visitAddress.setAuthor("");
+			visitAddress.setComAddress(_url);
+			visitAddress.setDegradeContext("{'command':'nullResp','sequenceID':'','fingerprint':'','body':{},'status':'901','msg':'系统繁忙,请稍后再试','code':'','msgCode':''}");
+			visitAddress.setGrpgName("");
+			visitAddress.setHttpType("POST");
+			visitAddress.setIsAddUser("1");
+			visitAddress.setIsAddVer("0");
+			visitAddress.setIsAuth("1");
+			visitAddress.setIsDefVer("1");
+			visitAddress.setIsDegrade("0");
+			visitAddress.setIsInner("0");
+			visitAddress.setIsLogger("0");
+			visitAddress.setIsRelease("0");
+			visitAddress.setIsSign("1");
+			visitAddress.setLogLevel("1");
+			visitAddress.setRealAddress(_url);
+			visitAddress.setTestAddress(_url);
+			visitAddress.setVerInfo("v0.1");
+			visitAddress.setVisitAddr(t);
+			visitAddressService.save(visitAddress);
+		}
+		
+		
+		
+		
+		
+		addMessage(redirectAttributes, "添加成功");
 		return "redirect:"+Global.getAdminPath()+"/sn/tsServiceGroup/?repage";
 	}
 	

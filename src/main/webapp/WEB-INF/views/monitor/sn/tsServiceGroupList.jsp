@@ -50,6 +50,8 @@
 				$("#searchForm").submit();
 				
 			}
+			
+			
 		
 		</script>
 	
@@ -123,6 +125,7 @@
    				<a href="${ctx}/sn/tsServiceGroup/form?id={{row.id}}">修改</a>
 				<a href="${ctx}/sn/tsServiceGroup/delete?id={{row.id}}" onclick="return confirmx('确认要删除该服务组及所有子服务组吗？', this.href)">删除</a>
 				<a href="${ctx}/sn/tsServiceGroup/form?parent.id={{row.id}}">添加下级服务组</a> 
+				<a href="${ctx}/sn/tsServiceGroup/addUS?id={{row.id}}" onclick="return confirmx('确认要添加到统一安全组吗？', this.href)">添加到统一安全</a> 
 			</td></shiro:hasPermission>
 		</tr>
 	</script>

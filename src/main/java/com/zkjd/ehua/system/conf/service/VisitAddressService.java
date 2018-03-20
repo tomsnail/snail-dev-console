@@ -36,6 +36,11 @@ public class VisitAddressService extends CrudService<VisitAddressDao, VisitAddre
 	}
 	
 	@Transactional(readOnly = false)
+	public void update(VisitAddress visitAddress){
+		this.dao.update(visitAddress);
+	}
+	
+	@Transactional(readOnly = false)
 	public void save(VisitAddress visitAddress) {
 		String dv = visitAddress.getIsDefVer();
 		if(StringUtils.isNotBlank(dv)&&dv.equals("1")){
