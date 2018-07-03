@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tomsnail.task.elasticjob.dao.JobExecutionLogDao">
+    
+	<sql id="jobExecutionLogColumns">
+		a.id AS "id",
+		a.job_name AS "jobName",
+		a.task_id AS "taskId",
+		a.hostname AS "hostname",
+		a.ip AS "ip",
+		a.sharding_item AS "shardingItem",
+		a.execution_source AS "executionSource",
+		a.execution_message AS "executionMessage",
+		a.failure_cause AS "failureCause",
+		a.is_success AS "isSuccess",
+		a.start_time AS "startTime",
+		a.complete_time AS "completeTime",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="jobExecutionLogJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.tomsnail.task.elasticjob.entity.JobExecutionLog">
+		SELECT 
+			<include refid="jobExecutionLogColumns"/>
+		FROM job_execution_log a
+		<include refid="jobExecutionLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.tomsnail.task.elasticjob.entity.JobExecutionLog">
+		SELECT 
+			<include refid="jobExecutionLogColumns"/>
+		FROM job_execution_log a
+		<include refid="jobExecutionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="jobName != null and jobName != ''">
+				AND a.job_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{jobName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{jobName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{jobName},'%')</if>
+			</if>
+			<if test="taskId != null and taskId != ''">
+				AND a.task_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{taskId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{taskId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{taskId},'%')</if>
+			</if>
+			<if test="hostname != null and hostname != ''">
+				AND a.hostname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{hostname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{hostname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{hostname},'%')</if>
+			</if>
+			<if test="ip != null and ip != ''">
+				AND a.ip = #{ip}
+			</if>
+			<if test="executionMessage != null and executionMessage != ''">
+				AND a.execution_message LIKE 
+					<if test="dbName == 'oracle'">'%'||#{executionMessage}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{executionMessage}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{executionMessage},'%')</if>
+			</if>
+			<if test="failureCause != null and failureCause != ''">
+				AND a.failure_cause LIKE 
+					<if test="dbName == 'oracle'">'%'||#{failureCause}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{failureCause}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{failureCause},'%')</if>
+			</if>
+			<if test="startTime != null and startTime != ''">
+				AND a.start_time = #{startTime}
+			</if>
+			<if test="completeTime != null and completeTime != ''">
+				AND a.complete_time = #{completeTime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.tomsnail.task.elasticjob.entity.JobExecutionLog">
+		SELECT 
+			<include refid="jobExecutionLogColumns"/>
+		FROM job_execution_log a
+		<include refid="jobExecutionLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO job_execution_log(
+			id,
+			job_name,
+			task_id,
+			hostname,
+			ip,
+			sharding_item,
+			execution_source,
+			execution_message,
+			failure_cause,
+			is_success,
+			start_time,
+			complete_time,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{id},
+			#{jobName},
+			#{taskId},
+			#{hostname},
+			#{ip},
+			#{shardingItem},
+			#{executionSource},
+			#{executionMessage},
+			#{failureCause},
+			#{isSuccess},
+			#{startTime},
+			#{completeTime},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE job_execution_log SET 	
+			job_name = #{jobName},
+			task_id = #{taskId},
+			hostname = #{hostname},
+			ip = #{ip},
+			sharding_item = #{shardingItem},
+			execution_source = #{executionSource},
+			execution_message = #{executionMessage},
+			failure_cause = #{failureCause},
+			is_success = #{isSuccess},
+			start_time = #{startTime},
+			complete_time = #{completeTime},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE job_execution_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

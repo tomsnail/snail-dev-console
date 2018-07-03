@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tomsnail.task.elasticjob.dao.JobInfoDao">
+    
+	<sql id="jobInfoColumns">
+		a.id AS "id",
+		a.zookeeper as zookeeper,
+		a.namespace as namespace,
+		a.job_name AS "jobName",
+		a.job_type AS "jobType",
+		a.job_class AS "jobClass",
+		a.job_crontab AS "jobCrontab",
+		a.sharding_total_count AS "shardingTotalCount",
+		a.job_parameter AS "jobParameter",
+		a.max_time_diff_seconds AS "maxTimeDiffSeconds",
+		a.monitor_port AS "monitorPort",
+		a.reconcile_interval_minutes AS "reconcileIntervalMinutes",
+		a.monitor_execution AS "monitorExecution",
+		a.failover AS "failover",
+		a.misfire AS "misfire",
+		a.sharding_item_params AS "shardingItemParams",
+		a.job_sharding_strategy_class AS "jobShardingStrategyClass",
+		a.job_exception_handler AS "jobExceptionHandler",
+		a.executor_service_handler AS "executorServiceHandler",
+		a.job_desc AS "jobDesc",
+		a.job_state AS "jobState",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="jobInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="cn.tomsnail.task.elasticjob.entity.JobInfo">
+		SELECT 
+			<include refid="jobInfoColumns"/>
+		FROM job_info a
+		<include refid="jobInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="cn.tomsnail.task.elasticjob.entity.JobInfo">
+		SELECT 
+			<include refid="jobInfoColumns"/>
+		FROM job_info a
+		<include refid="jobInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="beginJobName != null and endJobName != null and beginJobName != '' and endJobName != ''">
+				AND a.job_name BETWEEN #{beginJobName} AND #{endJobName}
+			</if>
+			<if test="jobType != null and jobType != ''">
+				AND a.job_type = #{jobType}
+			</if>
+			<if test="zookeeper != null and zookeeper != ''">
+				AND a.zookeeper = #{zookeeper}
+			</if>
+			<if test="namespace != null and namespace != ''">
+				AND a.namespace = #{namespace}
+			</if>
+			<if test="monitorExecution != null and monitorExecution != ''">
+				AND a.monitor_execution = #{monitorExecution}
+			</if>
+			<if test="failover != null and failover != ''">
+				AND a.failover = #{failover}
+			</if>
+			<if test="misfire != null and misfire != ''">
+				AND a.misfire = #{misfire}
+			</if>
+			<if test="jobState != null and jobState != ''">
+				AND a.job_state = #{jobState}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="cn.tomsnail.task.elasticjob.entity.JobInfo">
+		SELECT 
+			<include refid="jobInfoColumns"/>
+		FROM job_info a
+		<include refid="jobInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO job_info(
+			id,
+			zookeeper,
+			namespace,
+			job_name,
+			job_type,
+			job_class,
+			job_crontab,
+			sharding_total_count,
+			job_parameter,
+			max_time_diff_seconds,
+			monitor_port,
+			reconcile_interval_minutes,
+			monitor_execution,
+			failover,
+			misfire,
+			sharding_item_params,
+			job_sharding_strategy_class,
+			job_exception_handler,
+			executor_service_handler,
+			job_desc,
+			job_state,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{id},
+			#{zookeeper},
+			#{namespace},
+			#{jobName},
+			#{jobType},
+			#{jobClass},
+			#{jobCrontab},
+			#{shardingTotalCount},
+			#{jobParameter},
+			#{maxTimeDiffSeconds},
+			#{monitorPort},
+			#{reconcileIntervalMinutes},
+			#{monitorExecution},
+			#{failover},
+			#{misfire},
+			#{shardingItemParams},
+			#{jobShardingStrategyClass},
+			#{jobExceptionHandler},
+			#{executorServiceHandler},
+			#{jobDesc},
+			#{jobState},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE job_info SET 	
+			zookeeper = #{zookeeper},
+			namespace = #{namespace},
+			job_name = #{jobName},
+			job_type = #{jobType},
+			job_class = #{jobClass},
+			job_crontab = #{jobCrontab},
+			sharding_total_count = #{shardingTotalCount},
+			job_parameter = #{jobParameter},
+			max_time_diff_seconds = #{maxTimeDiffSeconds},
+			monitor_port = #{monitorPort},
+			reconcile_interval_minutes = #{reconcileIntervalMinutes},
+			monitor_execution = #{monitorExecution},
+			failover = #{failover},
+			misfire = #{misfire},
+			sharding_item_params = #{shardingItemParams},
+			job_sharding_strategy_class = #{jobShardingStrategyClass},
+			job_exception_handler = #{jobExceptionHandler},
+			executor_service_handler = #{executorServiceHandler},
+			job_desc = #{jobDesc},
+			job_state = #{jobState},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE job_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

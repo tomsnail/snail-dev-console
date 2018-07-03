@@ -53,6 +53,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
 		<project.war.name>ts-console</project.war.name>
+		<elastic.job.lite.console.version>2.1.5-ts-SNAPSHOT</elastic.job.lite.console.version>
 		
 	</properties>
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
@@ -634,6 +635,32 @@
 	    <groupId>org.codehaus.jackson</groupId>
 	    <artifactId>jackson-mapper-asl</artifactId>
 	    <version>1.9.13</version>
+	</dependency>
+	
+	
+	<dependency>
+    	<groupId>com.dangdang</groupId>
+    	<artifactId>elastic-job-lite-console</artifactId>
+    	<version>${elastic.job.lite.console.version}</version>
+    	<exclusions>
+    		<exclusion>
+            	<groupId>com.sun.jersey</groupId>
+            	<artifactId>jersey-servlet</artifactId>
+            </exclusion>
+        	<exclusion>
+            	<groupId>com.sun.jersey</groupId>
+            	<artifactId>jersey-json</artifactId>
+        	</exclusion>
+        	<exclusion>
+            	<groupId>com.sun.jersey</groupId>
+            	<artifactId>jersey-client</artifactId>
+        	</exclusion>
+        	<exclusion>
+            	<groupId>org.eclipse.jetty.aggregate</groupId>
+            	<artifactId>jetty-all-server</artifactId>
+        	</exclusion>
+    		
+    	</exclusions>
 	</dependency>
 		
 		<!-- 自定义jar依赖包
